@@ -1,0 +1,254 @@
+[
+    {
+        "id": "fb735d959d4987b1",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5cea557acabbb9ab",
+        "type": "mqtt in",
+        "z": "fb735d959d4987b1",
+        "name": "Porte",
+        "topic": "IF3B/projetporte/porte",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "de44ab13.b25498",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 200,
+        "wires": [
+            [
+                "65d5a5d1c958b1a0",
+                "871ec8f9964181ad"
+            ]
+        ]
+    },
+    {
+        "id": "65d5a5d1c958b1a0",
+        "type": "debug",
+        "z": "fb735d959d4987b1",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "f54d48016fd7a4f6",
+        "type": "mysql",
+        "z": "fb735d959d4987b1",
+        "mydb": "0b51fb01fe488a54",
+        "name": "",
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "aad8af2cfc9502e7",
+                "597a5f1ebbc56df0"
+            ]
+        ]
+    },
+    {
+        "id": "eab9f6dcf99c70d8",
+        "type": "inject",
+        "z": "fb735d959d4987b1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1234",
+        "payloadType": "num",
+        "x": 230,
+        "y": 340,
+        "wires": [
+            [
+                "871ec8f9964181ad"
+            ]
+        ]
+    },
+    {
+        "id": "871ec8f9964181ad",
+        "type": "function",
+        "z": "fb735d959d4987b1",
+        "name": "test",
+        "func": "msg.topic=\"SELECT * FROM compte WHERE RFID='\" + msg.payload + \"';\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 340,
+        "wires": [
+            [
+                "f54d48016fd7a4f6"
+            ]
+        ]
+    },
+    {
+        "id": "aad8af2cfc9502e7",
+        "type": "debug",
+        "z": "fb735d959d4987b1",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "597a5f1ebbc56df0",
+        "type": "function",
+        "z": "fb735d959d4987b1",
+        "name": "",
+        "func": "if(msg.payload.length == 0){\nmsg.payload = '0';\n}else{\n    msg.payload= '1';\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 460,
+        "wires": [
+            [
+                "3c9bc001d606532a",
+                "fe48b4c3fa271665",
+                "199d832014c61204"
+            ]
+        ]
+    },
+    {
+        "id": "3c9bc001d606532a",
+        "type": "debug",
+        "z": "fb735d959d4987b1",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "fe48b4c3fa271665",
+        "type": "mqtt out",
+        "z": "fb735d959d4987b1",
+        "name": "wow",
+        "topic": "IF3B/projetporte/feedback",
+        "qos": "",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "de44ab13.b25498",
+        "x": 990,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "199d832014c61204",
+        "type": "debug",
+        "z": "fb735d959d4987b1",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "1bba73babdf0bdac",
+        "type": "mqtt in",
+        "z": "fb735d959d4987b1",
+        "name": "Porte",
+        "topic": "IF3B/projetporte/porte",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "de44ab13.b25498",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "de44ab13.b25498",
+        "type": "mqtt-broker",
+        "name": "mqtt.ci-ciad.utbm.fr",
+        "broker": "mqtt.ci-ciad.utbm.fr",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "0b51fb01fe488a54",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "if3b",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]

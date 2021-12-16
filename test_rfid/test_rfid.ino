@@ -13,30 +13,41 @@ const char* mqtt_server = "mqtt.ci-ciad.utbm.fr";
 #define MQTT_PASSWORD ""
 #define MQTT_SERIAL_PUBLISH_CH "IF3B/Projet_Acces/serialdata/idcarte"
 #define MQTT_SERIAL_RECEIVER_CH "IF3B/Projet_Acces/serialdata/feedback"
-
+#define SS_PIN 23
+#define RST_PIN 16
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
+MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
+ 
 
 int i = 0;
 bool test = true;
 
-void setup_wifi() {
-    delay(10);
+void setup() 
+{
+  delay(10);
     // We start by connecting to a WiFi network
-    Serial.println();
-    Serial.print("Connecting to: ");
-    Serial.println(ssid);
-    WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
+  Serial.println();
+  Serial.print("Connecting to: ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
       delay(500);
       Serial.println("waiting pairing...");
     }
-    randomSeed(micros());
-    Serial.println("");
-    Serial.println("WiFi connected");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
+  randomSeed(micros());
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+  Serial.begin(115200);   // Initiate a serial communication
+  SPI.begin();      // Initiate  SPI bus
+  mfrc522.PCD_Init();   // Initiate MFRC522
+  Serial.println("Approximate your card to the reader...");
+  Serial.println();
+
 }
+
 
 void reconnect() {
   // Loop until we're reconnected
@@ -99,19 +110,6 @@ void callback(char* topic, byte *payload, unsigned int length) {
     }
 }
  
-#define SS_PIN 10
-#define RST_PIN 9
-MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
- 
-void setup() 
-{
-  Serial.begin(9600);   // Initiate a serial communication
-  SPI.begin();      // Initiate  SPI bus
-  mfrc522.PCD_Init();   // Initiate MFRC522
-  Serial.println("Approximate your card to the reader...");
-  Serial.println();
-
-}
 
 void loop() 
 {

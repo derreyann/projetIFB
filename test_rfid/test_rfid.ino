@@ -26,6 +26,7 @@ bool test = true;
 void setup() 
 {
   delay(10);
+  Serial.begin(9600);   // Initiate a serial communication
     // We start by connecting to a WiFi network
   Serial.println();
   Serial.print("Connecting to: ");
@@ -40,7 +41,6 @@ void setup()
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-  Serial.begin(115200);   // Initiate a serial communication
   SPI.begin();      // Initiate  SPI bus
   mfrc522.PCD_Init();   // Initiate MFRC522
   Serial.println("Approximate your card to the reader...");
@@ -140,9 +140,9 @@ void loop()
   content.toUpperCase();
 
   //Creating publishing functionalities
- if (!client.connected()) {
-    reconnect();
-  }else{
+ //if (!client.connected()) {
+ //   reconnect();
+ // }else{
     client.loop();
 
     char tempString[8];
@@ -155,5 +155,5 @@ void loop()
     Serial.print("Laserstatus: ");
     Serial.println(lasString);
     client.publish("IF3B/projetporte/laser", lasString);
-  }
+  
 }

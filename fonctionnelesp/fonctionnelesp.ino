@@ -131,10 +131,13 @@ void loop() {
   client.loop();
     
   //After reading the card, publishing id to server for SQL comparison analysis 
-    //char tempString[16]="3D 8D 3D 49 9D";
-    //Serial.print("CARTE READ: ");
+    char buf[32];
+    Serial.print("CARTE READ: ");
     Serial.println(content.substring(1));
-    client.publish("IF3B/Projet_Acces/serialdata/idcarte", content.substring(1));
+    String s = String(content.substring(1));
+    s.toCharArray(buf,32);
+    Serial.println(buf);
+    client.publish("IF3B/Projet_Acces/serialdata/idcarte", buf);
     delay(3000);
 
    

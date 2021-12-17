@@ -2,8 +2,8 @@
 #include <PubSubClient.h>
 #include <SPI.h>
 #include <MFRC522.h>
-#define SS_PIN 10
-#define RST_PIN 9
+#define SS_PIN 23
+#define RST_PIN 16
 // Credentials
 const char* ssid = "hey bud how's it going";
 const char* password = "heybuddy";
@@ -19,6 +19,8 @@ const int ledPin = 4;
 void setup() {
   Serial.begin(115200);
   setup_wifi();
+  SPI.begin();      // Initiate  SPI bus
+  mfrc522.PCD_Init();   // Initiate MFRC522
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
   Serial.println("Approximate your card to the reader...");
@@ -129,10 +131,10 @@ void loop() {
   client.loop();
     
   //After reading the card, publishing id to server for SQL comparison analysis 
-    char tempString[16]="3D 8D 3D 49 9D";
-    Serial.print("CARTE READ: ");
-    Serial.println(tempString);
-    client.publish("IF3B/Projet_Acces/serialdata/idcarte", tempString);
+    //char tempString[16]="3D 8D 3D 49 9D";
+    //Serial.print("CARTE READ: ");
+    Serial.println(content.substring(1));
+    client.publish("IF3B/Projet_Acces/serialdata/idcarte", content.substring(1));
     delay(3000);
 
    

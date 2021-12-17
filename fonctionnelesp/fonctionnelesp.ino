@@ -66,13 +66,21 @@ void callback(char* topic, byte* message, unsigned int length) {
     if(messageTemp == "1"){
       Serial.println("1");
       digitalWrite(ledPin, HIGH); //OUVRIR PORTE
+      // ALLUMER LED CONSTANTE PENDANT 5 SEC
       client.publish("IF3B/Projet_Acces/serialdata/test", "c'est un test badge valide");
 
     }
     else if(messageTemp == "0"){
       Serial.println("0");
       digitalWrite(ledPin, LOW); // INVALIDE PORTE
+      // CLIGNOTER LED ROUGE
       client.publish("IF3B/Projet_Acces/serialdata/test", "badge invalide");
+    }
+    else if(messageTemp == "2"){
+      Serial.println("2");
+      digitalWrite(ledPin, LOW); // APPAIRAGE DETECTÉ server-size
+      // CLIGNOTER LED ROUGE et VERTE
+      client.publish("IF3B/Projet_Acces/serialdata/test", "appairage carte en cours, placer sur le lecteur");
     }
   }
 }
@@ -121,7 +129,7 @@ void loop() {
      content.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
   Serial.println();
-  Serial.print("Message : ");
+  Serial.print("Carte lue:");
   content.toUpperCase();
   Serial.println(content.substring(1));
   
@@ -132,13 +140,9 @@ void loop() {
     
   //After reading the card, publishing id to server for SQL comparison analysis 
     char buf[32];
-    Serial.print("CARTE READ: ");
     Serial.println(content.substring(1));
     String s = String(content.substring(1));
     s.toCharArray(buf,32);
-    Serial.println(buf);
     client.publish("IF3B/Projet_Acces/serialdata/idcarte", buf);
-    delay(3000);
-
-   
+    delay(3000);  
 }

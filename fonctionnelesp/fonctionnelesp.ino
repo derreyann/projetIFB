@@ -58,15 +58,23 @@ void callback(char* topic, byte* message, unsigned int length) {
     messageTemp += (char)message[i];
   }
   Serial.println();
-
   // If a message is received on the feedback channel, validated by server
   // Changes the output state according to the message
   if (String(topic) == "IF3B/Projet_Acces/serialdata/feedback") {
     Serial.print("Changing output to ");
     if(messageTemp == "1"){
       Serial.println("1");
-      digitalWrite(ledPin, HIGH); //OUVRIR PORTE
       // ALLUMER LED CONSTANTE PENDANT 5 SEC
+      for(i=0; i<10; i++){
+        digitalWrite(ledPin, LOW);
+        delay(200);
+        digitalWrite(ledPin, HIGH); 
+        delay(200);
+      }
+      //AJOUTER COMMANDE OUVERTURE GACHE
+
+    
+      //PUBLISH FEEDBACK (JUSTE POUR LE TEST, SERA À RETIRER (OU ALORS EXLPOITER POUR LE DASHBOARD))
       client.publish("IF3B/Projet_Acces/serialdata/test", "c'est un test badge valide");
 
     }
